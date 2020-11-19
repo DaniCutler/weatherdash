@@ -1,4 +1,4 @@
-function initPage ( {
+function initPage () {
 const inputEl = document.getElementById ("city-input");
 const searchEl = document.getElementByID ("search-button");
 const clearEl = document.getElementById("clear-history");
@@ -57,7 +57,7 @@ function getWeather(cityName){
                 const forecastIndex = 1*8 + 4;
                 const forecastDate = new Date(response.data.list[forecastIndex].dt * 1000);
                 const forecastDay = forecastDate.getDate();
-                vonst forecastMonth = forecastDate.getMonth() + 1;
+                const forecastMonth = forecastDate.getMonth() + 1;
                 const forecastYear = forecastDate.getFullYear("p");
                 const forecastDateEl = document.createElement("p");
                 forecastDateEl.setAttribute("class", "mt-3 mb-0 forecast-date");
@@ -75,6 +75,41 @@ function getWeather(cityName){
                 forecastEls[i].append(forecastHumidityEl);
             }
         })
-    })
+    });
 }
-})
+
+    searchEl.addEventListener("click", function(){
+        const searchTerm = inputEl.value;
+        getWeather(searchTerm);
+        searchHistory.push(searchTerm);
+        localStorage.setItem("search", JSON.stringify(searchHistory));
+        renderSearchHistory();
+    })
+    clearEl.addEventListener("click", function(){
+        searchHistory = [];
+        renderSearchHistory();
+    })
+    function k2f(K) {
+        return Math.floor((K-273.15)*1.8 +32);
+    }
+    function renderSearchHistory() {
+        historyEl.innerHTML = "";
+        for(let i = 0; i < searchHistory.length; i++) {
+            const historyItem = document.createElement("input";
+            historyItem.setAttribute("type", "text");
+            historyItem.setAttribute("readOnly", true);
+            historyItem.setAttribute("class", "form-control d-block bg-white");
+            historyItem.setAttribute("value", searchHistory[i]);
+            historyItem.addEventListener("click", function() {
+                getWeather(historyItem.value);
+            })
+            historyEl.append(historyItem);
+        }
+    }
+    renderSearchHistory();
+    if (searchHistory.length > 0){
+        getWeather(searchHistory[searchHistory.length -1]);
+    }
+
+}
+initPage();
