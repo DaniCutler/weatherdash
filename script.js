@@ -2,20 +2,20 @@ function initPage () {
 const inputEl = document.getElementById ("city-input");
 const searchEl = document.getElementByID ("search-button");
 const clearEl = document.getElementById("clear-history");
-const nameEl = document.getElementById("clear-history");
+const nameEl = document.getElementById("city-name");
 const currentPicEl = document.getElementById("current-pic");
 const currentTempEl = document.getElementById("temperature");
 const currentHumidityEl = document.getElementById("humidity");4
 const currentWindEl = document.getElementById("wind-speed");
 const currentUVEl = document.getElementById("UV-Index");
 const historyEl = document.getElementById("history");   
-let searchHistory - JSON.parse(localStorage.getItem("search")) || [];
+let searchHistory = JSON.parse(localStorage.getItem("search")) || [];
 console.log(searchHistory);
 
 
-const APIKey = "36b93b16079d4b108a44a7d73bcfdee5"
+const APIKey = "b91f6f3111031f576a7266a030088947"
 function getWeather(cityName){
-    let queryURL = "api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=" + APIKey;
+    let queryURL = "api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + APIKey;
     axios.get(queryURL)
     .then(function(response){
         console.log(response);
@@ -48,7 +48,7 @@ function getWeather(cityName){
         let cityID = response.data.id;
         let forecaseQueryURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=" + APIKey;
         axios.get(forecastQueryURL)
-        then.(function(reponse){
+        .then(function(reponse){
             console.log(response);
             const forecastEls = document.querySelectorAll(".forecast");
             for (i = 0; i < forecastEls.length; i++){
@@ -95,7 +95,7 @@ function getWeather(cityName){
     function renderSearchHistory() {
         historyEl.innerHTML = "";
         for(let i = 0; i < searchHistory.length; i++) {
-            const historyItem = document.createElement("input";
+            const historyItem = document.createElement("input");
             historyItem.setAttribute("type", "text");
             historyItem.setAttribute("readOnly", true);
             historyItem.setAttribute("class", "form-control d-block bg-white");
@@ -112,4 +112,3 @@ function getWeather(cityName){
     }
 
 }
-initPage();
